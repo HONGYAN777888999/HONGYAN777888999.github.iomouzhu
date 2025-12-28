@@ -157,9 +157,7 @@
         
         <div class="result-container" id="result-container">
             <h2 class="result-title">结果</h2>
-            <div class="result-content" id="result-content">
-                <!-- 结果内容将通过JavaScript动态填充 -->
-            </div>
+            <div class="result-content" id="result-content"></div>
             <button class="back-btn" id="back-btn">返回选择</button>
         </div>
         
@@ -169,36 +167,28 @@
     </div>
 
     <script>
-        // 获取DOM元素
         const optionsContainer = document.getElementById('options');
         const resultContainer = document.getElementById('result-container');
         const resultContent = document.getElementById('result-content');
         const backBtn = document.getElementById('back-btn');
         const optionButtons = document.querySelectorAll('.option-btn');
         
-        // 定义结果内容
         const results = {
             1: "被整人已逃跑！",
             2: "被整人已逃跑！", 
             3: "你敢不整？"
         };
         
-        // 为每个选项按钮添加点击事件
         optionButtons.forEach(button => {
             button.addEventListener('click', function() {
                 const option = this.getAttribute('data-option');
                 
-                // 隐藏选项，显示结果
                 optionsContainer.style.display = 'none';
                 resultContainer.style.display = 'block';
                 
-                // 设置结果内容
                 resultContent.textContent = results[option];
-                
-                // 根据选项设置不同的结果ID
                 resultContent.id = `result${option}`;
                 
-                // 添加一点动画效果
                 resultContent.style.opacity = '0';
                 setTimeout(() => {
                     resultContent.style.transition = 'opacity 0.5s ease';
@@ -207,13 +197,10 @@
             });
         });
         
-        // 返回按钮点击事件
         backBtn.addEventListener('click', function() {
-            // 隐藏结果，显示选项
             resultContainer.style.display = 'none';
             optionsContainer.style.display = 'flex';
             
-            // 添加一点动画效果
             optionsContainer.style.opacity = '0';
             setTimeout(() => {
                 optionsContainer.style.transition = 'opacity 0.5s ease';
@@ -221,7 +208,6 @@
             }, 50);
         });
         
-        // 初始加载时，确保选项容器是可见的
         window.addEventListener('load', function() {
             optionsContainer.style.display = 'flex';
             resultContainer.style.display = 'none';
