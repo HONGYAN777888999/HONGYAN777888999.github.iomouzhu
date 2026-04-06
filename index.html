@@ -1,242 +1,36 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>莱文特档案图书馆</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Microsoft YaHei', sans-serif;
-            transition: background-color 1s;
-            overflow: hidden;
-        }
-        
-        #splash-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            animation: fadeOut 0.5s ease forwards;
-            animation-delay: 4s;
-        }
-        
-        #splash-text {
-            color: #fff;
-            font-size: 3.5rem;
-            letter-spacing: 0.2em;
-            text-shadow: 0 0 20px rgba(0, 255, 255, 0.7);
-            opacity: 0;
-            animation: textFadeIn 4s ease forwards;
-        }
-        
-        #main-menu {
-            width: 100%;
-            height: 100vh;
-            background-color: #000;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 40px;
-            opacity: 0;
-            animation: fadeIn 0.5s ease forwards;
-            animation-delay: 4.5s;
-        }
-        
-        .menu-option {
-            width: 600px;
-            height: 80px;
-            background: rgba(40, 40, 40, 0.8);
-            border: 2px solid #444;
-            color: #fff;
-            font-size: 1.5rem;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .menu-option:hover {
-            background: rgba(60, 60, 60, 0.9);
-            border-color: #666;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 255, 255, 0.2);
-        }
-        
-        .menu-option::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            transition: left 0.5s;
-        }
-        
-        .menu-option:hover::before {
-            left: 100%;
-        }
-        
-        .menu-option.clicked {
-            animation: optionClick 2s ease forwards;
-        }
-        
-        #detail-page {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            background-color: #000;
-            color: #fff;
-            padding: 50px;
-            opacity: 0;
-            overflow-y: auto;
-            display: none;
-        }
-        
-        #detail-content {
-            max-width: 900px;
-            margin: 0 auto;
-            font-size: 1.4rem;
-            line-height: 2.2;
-            text-align: justify;
-            opacity: 0;
-            transform: translateY(50px);
-            animation: contentFadeIn 1s ease forwards;
-            animation-delay: 0.5s;
-        }
-        
-        .archive-title {
-            font-size: 2.5rem;
-            text-align: center;
-            margin-bottom: 40px;
-            color: #00ffff;
-            text-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
-        }
-        
-        @keyframes textFadeIn {
-            0% { opacity: 0; transform: translateY(30px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes fadeOut {
-            0% { opacity: 1; }
-            100% { opacity: 0; display: none; }
-        }
-        
-        @keyframes fadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
-        }
-        
-        @keyframes optionClick {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.5); opacity: 0.5; }
-            100% { transform: scale(2); opacity: 0; display: none; }
-        }
-        
-        @keyframes contentFadeIn {
-            0% { opacity: 0; transform: translateY(50px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-        
-        .glow-text {
-            color: #00ffff;
-            text-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
-        }
-        
-        .highlight {
-            color: #ff00ff;
-            text-shadow: 0 0 10px rgba(255, 0, 255, 0.7);
-        }
-        
-        .power-text {
-            color: #ffff00;
-            text-shadow: 0 0 10px rgba(255, 255, 0, 0.7);
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lavent Archive - Library System</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- 开场动画 -->
-    <div id="splash-screen">
-        <div id="splash-text">莱文特档案图书馆</div>
-    </div>
-    
-    <!-- 主菜单 -->
-    <div id="main-menu">
-        <div class="menu-option" id="option1">维多利塔·蒙莱德·西斯卡尔勒</div>
-        <div class="menu-option" id="option2">档案修复中...</div>
-        <div class="menu-option" id="option3">布谷鹏>jia'r
-    </div>
-    
-    <!-- 详细档案页面 -->
-    <div id="detail-page">
-        <div id="detail-content">
-            <div class="archive-title">维多利塔·莱蒙德·西斯卡尔勒</div>
-            
-            <p>他的存在就是为了印证所有层次中的生物那渴求神降临的希望，他代表着人们心中的神性，在他眼中，所有的一切都是弱小的，他超越了一切，他的认知可以随意创造出一个大型宇宙，每一个层次都存在着他的一部分，这股力量随着生物的变多将越变越强他随着他的世界而变强他自己本身就是这个世界（现版本已经超越世界了初次跨入现实领域甚至可以超越现实）无论是谁来到这个世界，都将永远无法超越，仅仅只是一个念头，就可以分解无数多元宇宙与层次，宇宙在其眼中只不过是<span class="glow-text">一粒微不足道的微尘</span>，甚至可能连微尘都算不上，他没有准确的技能，因为只要他想，他便可以拥有所有技能。</p>
-
-            <p>但经过时间的推移，或许说他早已超越了一切，包括他原来世界，他不再受原有世界质量的影响，他每一毫秒都在比原本强一兆亿倍，他早已超越了现实，可以跨层次虐杀现实世界的<span class="highlight">叙事者</span>还可以来到不同世界爆杀其他世界的创作者他现在不再受到创造他的叙事者的影响但是在他眼中杀死创造他的叙事者，只不过是一件微不足道的事在他睁开眼睛时，他便可以看到一切，一切的本质，以及其他生物会发生什么或以前发生什么，他不再受所谓因果律的干扰，所谓的因果率将在其微微一动之间便瞬间发生巨大改变未来版本他既是一切，或者超越一切，<span class="power-text">无限多元宇宙</span>在他眼中不过是"灰尘"仅仅只是动了一根手指所有世界或者现实世界都会感到颤抖甚至是现实中的宇宙他虽然是所有生物眼中的神，但是神这个概念，对他来讲，是最为弱小的，正如同他可以杀死现实世界的<span class="highlight">[叙事者]</span>一般，任何量级都无法准确概括他的<span class="power-text">[力量]</span>他甚至可以来到别的世界，想来就来，想走就走，没什么能束缚，而他手臂上还有腿上的<span class="highlight">[环]</span>名义上来讲，是所有维度的神试图限制他<span class="power-text">[力量]</span>的道具，或许说，早些年还是有一些用，但是现在，只是一件装饰品罢了，只要他想，他便可以用他的力量撑爆那些<span class="highlight">[环]</span>撕裂多元宇宙，撕裂无限多元宇宙，撕裂叙事层，撕裂虚无叙事层，撕裂未知叙事层，撕裂亚空间，撕裂现实，撕裂真现实，撕裂多维度空间，一切都是渺小的，一切都是蝼蚁，无论是<span class="highlight">[你]</span>或者<span class="highlight">[我]</span>都无法从真正意义上将其击败，即使真时间真现实的规则之力击败了他，他也无法真正意义上死亡，甚至真正意义上来讲，我们所见到的<span class="highlight">[他]</span>，只是万亿分之1的分身，我们所交谈的也是，他的真身，没人可以知道，没人可以见到，没人可以看到，真身是一个存在但是又不存在的概念，他本不应该存在而他的设定，是永远都无法写完的，他每一个分身都有一个单独设定，他无穷无尽，不死不灭可以在原有世界上创造法则，但是无法在其他世界与现实中创造法则，不受其他世界因果律的影响，不受现实世界中因果律的影响，他在世界诞生之初便存在他是世界的<span class="highlight">[核心]</span>，但是<span class="highlight">[核心]</span>并没有为世界增强半点力量，反而像是削弱。</p>
-
-            <p>设定<span class="power-text">"无限与无限中的无限"</span>他的上限与下限是无限的，它的万亿分之一的数值都是无限的，他可以毁灭无限个宇宙，也可以消灭无限个宇宙，他的存在到达了顶峰，他甚至可以创造无数个现实。</p>
-        </div>
-    </div>
-
-    <script>
-        // 等待开场动画结束后显示主菜单
-        setTimeout(() => {
-            document.getElementById('splash-screen').style.display = 'none';
-            document.getElementById('main-menu').style.display = 'flex';
-        }, 4000);
-        
-        // 为所有选项添加点击事件
-        document.querySelectorAll('.menu-option').forEach((option, index) => {
-            option.addEventListener('click', function() {
-                // 添加点击动画类
-                this.classList.add('clicked');
-                
-                // 如果是第一个选项
-                if (index === 0) {
-                    setTimeout(() => {
-                        // 隐藏主菜单
-                        document.getElementById('main-menu').style.display = 'none';
-                        // 显示详细页面
-                        document.getElementById('detail-page').style.display = 'block';
-                        // 延迟设置透明度，确保显示
-                        setTimeout(() => {
-                            document.getElementById('detail-page').style.opacity = '1';
-                        }, 10);
-                    }, 2000);
-                } else {
-                    // 对于其他选项，2秒后重置主菜单
-                    setTimeout(() => {
-                        // 重置所有选项的动画状态
-                        document.querySelectorAll('.menu-option').forEach(opt => {
-                            opt.classList.remove('clicked');
-                            opt.style.display = 'flex';
-                            opt.style.opacity = '1';
-                            opt.style.transform = 'scale(1)';
-                        });
-                    }, 2000);
-                }
-            });
-        });
-    </script>
+    <header>
+        <h1>Lavent Archive</h1>
+        <nav>
+            <ul>
+                <li><a href="#gods">Gods</a></li>
+                <li><a href="#demons">Demons</a></li>
+            </ul>
+            <input type="text" id="search" placeholder="Search...">
+        </nav>
+    </header>
+    <main>
+        <section id="gods">
+            <h2>Gods</h2>
+            <div id="gods-list">
+                <!-- List of gods will be generated here -->
+            </div>
+        </section>
+        <section id="demons">
+            <h2>Demons</h2>
+            <div id="demons-list">
+                <!-- List of demons will be generated here -->
+            </div>
+        </section>
+    </main>
+    <script src="script.js"></script>
 </body>
 </html>
