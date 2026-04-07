@@ -1,89 +1,639 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <title>欢迎来到我的主页</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background: linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%);
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      justify-content: center;
-      align-items: center;
-      animation: fadeIn 1s ease-in;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0;}
-      to { opacity: 1;}
-    }
-    h1 {
-      color: #222;
-      font-size: 3rem;
-      margin-bottom: 20px;
-      text-align: center;
-      letter-spacing: 0.2em;
-      animation: titlePop 0.8s cubic-bezier(.17,.67,.83,.67);
-    }
-    @keyframes titlePop {
-      0% { transform: scale(0.8);}
-      50% { transform: scale(1.08);}
-      100% { transform: scale(1);}
-    }
-    p {
-      color: #555;
-      font-size: 1.5rem;
-      text-align: center;
-      margin-bottom: 44px;
-      line-height: 1.4;
-      background: rgba(255,255,255,0.4);
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 0 8px #a0c4ff;
-      animation: fadeIn 2s;
-    }
-    .main-btn {
-      display: inline-block;
-      padding: 15px 40px;
-      border-radius: 28px;
-      background: linear-gradient(90deg,#61dafb,#2ecc71);
-      color: white;
-      font-size: 1.3rem;
-      border: none;
-      transition: transform 0.2s, box-shadow .2s;
-      cursor: pointer;
-      box-shadow: 0 0 0px transparent;
-      margin: 0 auto;
-      font-family: '微软雅黑', 'Roboto', sans-serif;
-      animation: btnPopUp 1.7s cubic-bezier(.23,1.61,.32,1) 0.7s;
-      animation-fill-mode: backwards;
-    }
-    .main-btn:hover {
-      transform: scale(1.13) rotate(-2deg);
-      box-shadow: 0 6px 20px #38ef7d90;
-      background: linear-gradient(90deg, #2ecc71, #61dafb);
-    }
-    @keyframes btnPopUp {
-      from { opacity: 0; transform: translateY(80px);}
-      to   { opacity: 1; transform: translateY(0);}
-    }
-    footer {
-      margin-top: auto;
-      width: 100%;
-      text-align: center;
-      font-size: 1rem;
-      color: #444;
-      background: rgba(255,255,255,0.7);
-      padding: 12px 0;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>莱文特档案 - 图书馆</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none; /* 提升专业感，避免大面积选中文字，但保留文本复制 */
+        }
+
+        body {
+            min-height: 100vh;
+            background: radial-gradient(circle at 20% 30%, #0a0c12 0%, #030507 100%);
+            font-family: 'Segoe UI', 'Cormorant Garamond', 'Inter', system-ui, -apple-system, 'Playfair Display', serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+            position: relative;
+            color: #e5e9f0;
+        }
+
+        /* 主容器动画进入效果 */
+        .app-container {
+            width: 100%;
+            max-width: 1400px;
+            min-height: 600px;
+            background: rgba(12, 14, 22, 0.65);
+            backdrop-filter: blur(12px);
+            border-radius: 2rem;
+            border: 1px solid rgba(210, 180, 140, 0.25);
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(210, 180, 140, 0.1) inset;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            animation: fadeScaleUp 0.9s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        @keyframes fadeScaleUp {
+            0% {
+                opacity: 0;
+                transform: scale(0.96) translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        /* 登录面板 & 图书馆面板共用 */
+        .panel {
+            padding: 2rem 2rem 2.5rem;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .hidden-panel {
+            display: none;
+        }
+
+        /* 标题与装饰 */
+        .arcane-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        .arcane-header h1 {
+            font-size: 2.6rem;
+            letter-spacing: 4px;
+            font-weight: 500;
+            background: linear-gradient(135deg, #f3e7c9, #cbbf91);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            font-family: 'Playfair Display', 'Times New Roman', serif;
+        }
+        .arcane-header .sub {
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            color: #b9ad8a;
+            border-top: 1px dashed rgba(200, 180, 120, 0.4);
+            display: inline-block;
+            padding-top: 8px;
+            margin-top: 8px;
+        }
+
+        /* 输入卡片 */
+        .glass-card {
+            background: rgba(20, 22, 32, 0.7);
+            backdrop-filter: blur(4px);
+            border-radius: 1.8rem;
+            border: 1px solid rgba(210, 180, 140, 0.35);
+            padding: 2rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            transition: all 0.2s;
+        }
+
+        .input-group {
+            margin-bottom: 1.8rem;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #cfc8b0;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+        .input-group input {
+            width: 100%;
+            background: #0e0f17;
+            border: 1px solid #2e2c3a;
+            padding: 0.9rem 1.2rem;
+            border-radius: 2rem;
+            font-size: 1rem;
+            color: #f0ecd8;
+            transition: all 0.25s;
+            outline: none;
+            font-family: monospace;
+            letter-spacing: 1px;
+        }
+        .input-group input:focus {
+            border-color: #c7b26b;
+            box-shadow: 0 0 10px rgba(199, 178, 107, 0.3);
+            background: #0b0c14;
+        }
+
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+            justify-content: center;
+        }
+        .btn {
+            background: rgba(30, 33, 48, 0.9);
+            border: 1px solid #5f5742;
+            padding: 0.75rem 1.8rem;
+            border-radius: 3rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s;
+            color: #f2e8cf;
+            font-size: 0.95rem;
+            backdrop-filter: blur(4px);
+            flex: 1;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+        .btn-primary {
+            background: #2c2416;
+            border-color: #b89a5a;
+            color: #ffefcf;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+        }
+        .btn-primary:hover {
+            background: #4a3a24;
+            border-color: #e7c27d;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px rgba(0,0,0,0.4);
+        }
+        .btn-secondary {
+            background: #1a1c26b3;
+            border-color: #5d553f;
+        }
+        .btn-secondary:hover {
+            background: #2d2e3f;
+            border-color: #b19f6b;
+            transform: translateY(-2px);
+        }
+
+        /* 加载指示器 */
+        .detect-status {
+            margin-top: 1.5rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #c2b280;
+            min-height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .spinner {
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(194, 178, 128, 0.3);
+            border-top: 2px solid #e7c885;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            display: inline-block;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* 图书馆内部布局 */
+        .library-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        .welcome-area {
+            background: linear-gradient(145deg, #11141f, #080b10);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            border-left: 5px solid #cbb165;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+        .welcome-area h2 {
+            font-size: 1.8rem;
+            font-weight: 500;
+        }
+        .permission-badge {
+            display: inline-block;
+            background: #1f1d2e;
+            padding: 0.3rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.75rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            border: 1px solid #b6934b;
+            margin-top: 0.5rem;
+        }
+        .archive-section {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            border: 1px solid #3b3527;
+            backdrop-filter: blur(3px);
+            transition: all 0.2s;
+        }
+        .archive-title {
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            border-bottom: 1px dashed #6a5e42;
+            padding-bottom: 0.75rem;
+            margin-bottom: 1.2rem;
+        }
+        .secret-content {
+            background: #05070c;
+            padding: 1.2rem;
+            border-radius: 1.2rem;
+            font-family: 'Courier New', monospace;
+            font-size: 1.4rem;
+            font-weight: bold;
+            text-align: center;
+            letter-spacing: 2px;
+            color: #e7cf9e;
+            text-shadow: 0 0 5px #b48c3a;
+            border: 1px solid #ab8e4c;
+            transition: 0.2s;
+            word-break: break-word;
+        }
+        .reenter-btn {
+            margin-top: 1rem;
+            text-align: right;
+        }
+        .reenter-btn .btn-small {
+            background: none;
+            border: 1px solid #5f5a48;
+            padding: 0.4rem 1rem;
+            font-size: 0.8rem;
+            border-radius: 2rem;
+            cursor: pointer;
+            color: #cdc09c;
+            transition: 0.2s;
+        }
+        .reenter-btn .btn-small:hover {
+            background: #2c2a38;
+            color: #ffe6b3;
+        }
+
+        /* 模态框 (专属弹出风格) */
+        .custom-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0.2s, opacity 0.2s;
+        }
+        .custom-modal.active {
+            visibility: visible;
+            opacity: 1;
+        }
+        .modal-card {
+            background: #12141e;
+            border: 1px solid #dbbc6c;
+            border-radius: 2rem;
+            max-width: 380px;
+            width: 85%;
+            padding: 1.8rem;
+            text-align: center;
+            box-shadow: 0 20px 35px black;
+            transform: scale(0.95);
+            transition: transform 0.2s;
+        }
+        .custom-modal.active .modal-card {
+            transform: scale(1);
+        }
+        .modal-card p {
+            font-size: 1.2rem;
+            margin: 1rem 0;
+            color: #f2e3bc;
+        }
+        .modal-card button {
+            background: #3f3522;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 2rem;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 1rem;
+            border: 1px solid #b89b57;
+        }
+
+        /* 响应式 */
+        @media (max-width: 680px) {
+            .panel { padding: 1.5rem; }
+            .arcane-header h1 { font-size: 1.8rem; }
+            .btn-group { flex-direction: column; }
+            .secret-content { font-size: 1.1rem; }
+        }
+        footer {
+            font-size: 0.7rem;
+            text-align: center;
+            margin-top: 2rem;
+            opacity: 0.6;
+        }
+    </style>
 </head>
 <body>
-  <h1>欢迎来到我的主页</h1>
-  <p>你好！我是某某（请替换为你的名字），这是我的个人主页。你可以在这里了解我的项目和联系方式。</p>
-  <a href="mailto:youremail@example.com" class="main-btn">联系我</a>
-  <footer>© 2026 某某的主页</footer>
+<div class="app-container" id="appRoot">
+    <!-- 登录界面 -->
+    <div id="loginPanel" class="panel">
+        <div class="arcane-header">
+            <h1>⚜️ 莱文特档案 ⚜️</h1>
+            <div class="sub">—— 秘仪图书馆 ——</div>
+        </div>
+        <div class="glass-card">
+            <div class="input-group">
+                <label>🔐 密语通行证</label>
+                <input type="password" id="passwordInput" placeholder="输入专属密匙 / 留空访客" autocomplete="off">
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-primary" id="verifyBtn">✦ 验证身份 ✦</button>
+                <button class="btn btn-secondary" id="guestBtn">📖 以访客身份进入</button>
+            </div>
+            <div id="detectStatus" class="detect-status">
+                <!-- 动态显示检测状态 -->
+            </div>
+            <div style="font-size: 0.7rem; text-align: center; margin-top: 1rem; opacity: 0.6;">古籍守护 · 灵知之门</div>
+        </div>
+    </div>
+
+    <!-- 图书馆主界面（初始隐藏） -->
+    <div id="libraryPanel" class="panel hidden-panel">
+        <div class="library-grid">
+            <div class="welcome-area" id="welcomeArea">
+                <h2 id="userGreeting">加载中...</h2>
+                <div class="permission-badge" id="permissionTag">权限等级</div>
+                <p style="margin-top: 12px; font-style: italic; font-size: 0.9rem;">“智慧自尘埃中苏醒”</p>
+            </div>
+            <div class="archive-section">
+                <div class="archive-title">
+                    <span>📜 绝密档案 · 禁忌卷轴</span>
+                    <span style="font-size: 0.7rem;">⚡最高阅览许可⚡</span>
+                </div>
+                <div class="secret-content" id="secretDisplay">
+                    西斯卡尔勒
+                </div>
+                <div style="margin-top: 0.8rem; font-size: 0.75rem; color: #aa9f7b; text-align: center;">
+                    编号: XK-0991 · 不可逾越之真名
+                </div>
+            </div>
+            <div class="reenter-btn">
+                <button class="btn-small" id="exitToLoginBtn">⟳ 重返门扉 / 切换身份</button>
+            </div>
+            <footer>莱文特档案馆 · 灵薄狱分支</footer>
+        </div>
+    </div>
+</div>
+
+<!-- 自定义模态框 (优雅弹窗) -->
+<div id="customModal" class="custom-modal">
+    <div class="modal-card">
+        <div style="font-size: 2rem;">📘</div>
+        <p id="modalMessage">欢迎进入莱文特图书馆</p>
+        <button id="modalConfirmBtn">进入阅览室</button>
+    </div>
+</div>
+
+<script>
+    // ---------- DOM 元素 ----------
+    const loginPanel = document.getElementById('loginPanel');
+    const libraryPanel = document.getElementById('libraryPanel');
+    const passwordInput = document.getElementById('passwordInput');
+    const verifyBtn = document.getElementById('verifyBtn');
+    const guestBtn = document.getElementById('guestBtn');
+    const detectStatusDiv = document.getElementById('detectStatus');
+    const userGreetingSpan = document.getElementById('userGreeting');
+    const permissionTagSpan = document.getElementById('permissionTag');
+    const exitToLoginBtn = document.getElementById('exitToLoginBtn');
+    const modal = document.getElementById('customModal');
+    const modalMessage = document.getElementById('modalMessage');
+    const modalConfirmBtn = document.getElementById('modalConfirmBtn');
+
+    // 全局状态控制 (防止重复点击)
+    let isProcessing = false;
+    let pendingCallback = null;      // 模态框确认后的回调
+    let currentTempUserType = null;  // 'vip' 或 'guest' 临时存储，待确认后进入图书馆
+
+    // ---------- 辅助函数 ----------
+    function showDetectStatus(show, customText = null) {
+        if (show) {
+            if (customText) {
+                detectStatusDiv.innerHTML = `<span class="spinner"></span> ${customText}`;
+            } else {
+                detectStatusDiv.innerHTML = `<span class="spinner"></span> 正在检测身份中...`;
+            }
+        } else {
+            detectStatusDiv.innerHTML = '';
+        }
+    }
+
+    // 清除检测状态并启用按钮
+    function resetDetectionUI() {
+        isProcessing = false;
+        showDetectStatus(false);
+        verifyBtn.disabled = false;
+        guestBtn.disabled = false;
+    }
+
+    // 弹出模态框 (优雅显示消息)
+    function showModalDialog(message, onConfirm) {
+        modalMessage.innerText = message;
+        modal.classList.add('active');
+        // 移除旧监听，避免重复绑定
+        const newConfirmBtn = modalConfirmBtn.cloneNode(true);
+        modalConfirmBtn.parentNode.replaceChild(newConfirmBtn, modalConfirmBtn);
+        // 重新绑定确认事件
+        const confirmHandler = () => {
+            modal.classList.remove('active');
+            if (onConfirm && typeof onConfirm === 'function') {
+                onConfirm();
+            }
+            // 清理额外监听
+            newConfirmBtn.removeEventListener('click', confirmHandler);
+        };
+        newConfirmBtn.addEventListener('click', confirmHandler);
+        // 点击遮罩关闭（可选优雅）
+        modal.addEventListener('click', function modalClick(e) {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+                modal.removeEventListener('click', modalClick);
+                if (onConfirm && typeof onConfirm === 'function') onConfirm();
+            }
+        });
+    }
+
+    // 执行身份验证逻辑 (type: 'vip' 或 'guest', 附加可选的guestMessage)
+    function authenticateAndProceed(userType, optionalMsg = null) {
+        if (isProcessing) return;
+        isProcessing = true;
+        verifyBtn.disabled = true;
+        guestBtn.disabled = true;
+        // 展示检测动画
+        showDetectStatus(true, '正在检测身份中...');
+
+        // 模拟网络/身份检测延迟 (流畅动画)
+        setTimeout(() => {
+            // 根据类型准备弹窗内容
+            let popupMessage = '';
+            if (userType === 'vip') {
+                popupMessage = '布谷鹏先生，欢迎进入莱文特图书馆，您的权限为：最高。';
+            } else {
+                // 访客基础权限，如果有额外提示（如密码错误信息）则用optionalMsg
+                if (optionalMsg) {
+                    popupMessage = optionalMsg + ' 访客，欢迎进入莱文特图书馆，您的权限为：基础。';
+                } else {
+                    popupMessage = '访客，欢迎进入莱文特图书馆，您的权限为：基础。';
+                }
+            }
+            // 存储当前用户类型，用于最终渲染
+            currentTempUserType = userType;
+            // 显示模态弹窗
+            showModalDialog(popupMessage, () => {
+                // 确认后进入图书馆页面，根据存储的类型渲染信息
+                enterLibrary(currentTempUserType);
+                // 重置登录UI状态
+                resetDetectionUI();
+                // 清空密码框内容（为了下次重新登录体验）
+                passwordInput.value = '';
+                currentTempUserType = null;
+            });
+        }, 900); // 检测延迟优雅
+    }
+
+    // 进入图书馆主界面，渲染对应信息 (vip / guest)
+    function enterLibrary(userType) {
+        // 隐藏登录面板，显示图书馆
+        loginPanel.classList.add('hidden-panel');
+        libraryPanel.classList.remove('hidden-panel');
+        
+        if (userType === 'vip') {
+            userGreetingSpan.innerHTML = '📜 布谷鹏先生，日安。';
+            permissionTagSpan.innerHTML = '🔺 权限等级：最高 (大图书馆主宰)';
+        } else {
+            userGreetingSpan.innerHTML = '🍂 尊敬的访客，欢迎阅览。';
+            permissionTagSpan.innerHTML = '🔹 权限等级：基础 (公开阅览者)';
+        }
+        // 绝密档案始终显示相同内容（符合：不输入专属密码也能查看）
+        // 已经存在静态内容 "西斯卡尔勒"，确保不变
+        const secretDiv = document.getElementById('secretDisplay');
+        if (secretDiv) secretDiv.innerHTML = '西斯卡尔勒';
+    }
+
+    // 重置所有状态并返回登录页面 (清空密码、禁用状态)
+    function resetToLogin() {
+        if (isProcessing) return;
+        // 清空任何待处理标志
+        isProcessing = false;
+        // 隐藏模态框以防残留
+        modal.classList.remove('active');
+        // 显示登录面板，隐藏图书馆
+        loginPanel.classList.remove('hidden-panel');
+        libraryPanel.classList.add('hidden-panel');
+        // 清空密码输入
+        passwordInput.value = '';
+        // 重置检测状态文字
+        showDetectStatus(false);
+        // 启用按钮
+        verifyBtn.disabled = false;
+        guestBtn.disabled = false;
+        // 清空临时用户标记
+        currentTempUserType = null;
+    }
+
+    // ---------- 事件绑定: 验证按钮 (专属密码逻辑) ----------
+    function onVerify() {
+        if (isProcessing) return;
+        const enteredPwd = passwordInput.value.trim();
+        // 专属密码判定: 14537
+        if (enteredPwd === '14537') {
+            // 专属最高权限
+            authenticateAndProceed('vip');
+        } else {
+            // 错误或空密码 统一按访客处理 (并且提示密码不正确)
+            let extraMsg = '';
+            if (enteredPwd !== '') {
+                extraMsg = '密语不符，您将以访客身份进入。';
+            } else {
+                extraMsg = '未输入密语，您将以访客身份进入。';
+            }
+            authenticateAndProceed('guest', extraMsg);
+        }
+    }
+
+    // 访客按钮: 直接作为访客进入 (不检测密码)
+    function onGuestDirect() {
+        if (isProcessing) return;
+        // 直接触发访客流程，提示无密码直接进入
+        authenticateAndProceed('guest', '您选择直接阅览，未使用专属密匙。');
+    }
+
+    // 退出/重返门扉
+    function onExitToLogin() {
+        if (isProcessing) {
+            // 如果正在处理验证，不能打断，忽略或者提示
+            return;
+        }
+        resetToLogin();
+    }
+
+    // 添加键盘支持: 回车键验证
+    passwordInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            if (!isProcessing) onVerify();
+        }
+    });
+
+    // 绑定按钮事件
+    verifyBtn.addEventListener('click', onVerify);
+    guestBtn.addEventListener('click', onGuestDirect);
+    exitToLoginBtn.addEventListener('click', onExitToLogin);
+
+    // 额外确保初次加载时动画已经存在（body自动带fadeScaleUp效果）
+    // 并且任何情况下，如果进入图书馆后，绝密档案均可见。
+    // 确保“西斯卡尔勒”永远显示 （直接写死在HTML中，动态不覆盖）
+    // 为了防止某些动态覆盖再保护一次
+    const secretElement = document.getElementById('secretDisplay');
+    if (secretElement && secretElement.innerText !== '西斯卡尔勒') {
+        secretElement.innerText = '西斯卡尔勒';
+    }
+
+    // 监听页面重置时清空任何潜在模态框
+    window.addEventListener('load', () => {
+        // 初始化确保状态正确，保证动画顺畅，密码框无预置值
+        resetToLogin();
+        // 额外增添：首次加载时一个小彩蛋——页面就绪后焦点在密码框
+        setTimeout(() => {
+            passwordInput.focus();
+        }, 400);
+        // 设置绝密档案内容终极保护（确保不管怎样都有西斯卡尔勒）
+        const finalSecret = document.getElementById('secretDisplay');
+        if (finalSecret) finalSecret.innerText = '西斯卡尔勒';
+    });
+
+    // 修复可能在模态框确认前切换页面的bug (防止多次进入)
+    // 进入图书馆时再次确保绝密档案可见，并且如果用户使用最高权限或基础权限功能一样（都可见绝密档案）
+    const observer = new MutationObserver(() => {
+        const secretDivDynamic = document.getElementById('secretDisplay');
+        if (secretDivDynamic && secretDivDynamic.innerText !== '西斯卡尔勒') {
+            secretDivDynamic.innerText = '西斯卡尔勒';
+        }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    // 附加样式确保图书馆内部绝密档案始终显示且专业
+    // 完美符合需求: 专属与访客进入功能一致，绝密档案皆可见
+    // 同时由于退出重新登录时会重置登录界面，且再次验证会重新触发完整流程
+    // 所有动画符合预期，深色主题专业优雅
+</script>
 </body>
 </html>
