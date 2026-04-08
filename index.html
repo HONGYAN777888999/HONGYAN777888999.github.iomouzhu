@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>莱文特档案 · 西斯卡尔勒</title>
+    <title>莱文特档案 - 图书馆</title>
     <style>
         * {
             margin: 0;
@@ -53,7 +53,7 @@
 
         .arcane-header {
             text-align: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             position: relative;
         }
         .arcane-header h1 {
@@ -186,12 +186,12 @@
         .library-grid {
             display: flex;
             flex-direction: column;
-            gap: 1.8rem;
+            gap: 2rem;
         }
         .welcome-area {
             background: linear-gradient(145deg, #11141f, #080b10);
             border-radius: 1.5rem;
-            padding: 1.2rem 1.8rem;
+            padding: 1.5rem;
             border-left: 5px solid #cbb165;
             box-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
@@ -211,14 +211,62 @@
             margin-top: 0.5rem;
         }
 
-        /* 档案卡片 —— 西斯卡尔勒完整内容 */
-        .archive-full {
+        /* 档案入口卡片 - 可点击 */
+        .archive-entry {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            border: 1px solid #3b3527;
+            backdrop-filter: blur(3px);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .archive-entry:hover {
+            border-color: #cbb165;
+            box-shadow: 0 0 25px rgba(203, 177, 101, 0.2);
+            transform: translateY(-3px);
+        }
+        .archive-title {
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            border-bottom: 1px dashed #6a5e42;
+            padding-bottom: 0.75rem;
+            margin-bottom: 1.2rem;
+        }
+        .secret-content {
+            background: #05070c;
+            padding: 1.8rem;
+            border-radius: 1.2rem;
+            font-family: 'Courier New', monospace;
+            font-size: 2.2rem;
+            font-weight: bold;
+            text-align: center;
+            letter-spacing: 4px;
+            color: #e7cf9e;
+            text-shadow: 0 0 8px #b48c3a;
+            border: 1px solid #ab8e4c;
+            transition: 0.2s;
+            word-break: break-word;
+        }
+        .click-hint {
+            text-align: center;
+            margin-top: 0.8rem;
+            font-size: 0.75rem;
+            color: #aa9f7b;
+            opacity: 0.8;
+        }
+
+        /* 档案详情面板 (初始隐藏) */
+        .archive-detail-panel {
             background: rgba(0, 0, 0, 0.45);
             backdrop-filter: blur(3px);
             border: 1px solid #ab8e4c;
             border-radius: 1.8rem;
             padding: 1.8rem;
             box-shadow: 0 0 20px rgba(0,0,0,0.7);
+            margin-top: 0.5rem;
         }
 
         .profile-header {
@@ -231,7 +279,7 @@
             margin-bottom: 1.5rem;
         }
         .profile-name {
-            font-size: 2.2rem;
+            font-size: 2rem;
             font-weight: 600;
             background: linear-gradient(145deg, #f5e2b9, #c4a56e);
             -webkit-background-clip: text;
@@ -242,7 +290,7 @@
         .profile-alias {
             color: #c9bc93;
             font-style: italic;
-            font-size: 1.1rem;
+            font-size: 1rem;
             margin-left: auto;
         }
 
@@ -264,7 +312,7 @@
             border: 1px solid #4f4630;
         }
         .section-title {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             color: #e2cf9a;
             border-left: 4px solid #cfb15b;
             padding-left: 12px;
@@ -273,14 +321,14 @@
         }
 
         .power-tier {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: bold;
             color: #f3d27e;
             text-shadow: 0 0 8px #ab7e1f;
         }
         .infinite-badge {
             background: #0f0f1a;
-            padding: 0.6rem 1rem;
+            padding: 0.5rem 1rem;
             border-radius: 2rem;
             font-family: monospace;
             border: 1px dashed #bc9b4b;
@@ -291,9 +339,10 @@
             list-style: none;
         }
         .ability-list li {
-            margin-bottom: 0.9rem;
+            margin-bottom: 0.8rem;
             border-bottom: 1px dotted #5a4f38;
             padding-bottom: 0.4rem;
+            font-size: 0.9rem;
         }
 
         .weakness-note {
@@ -301,6 +350,27 @@
             padding: 1rem;
             border-radius: 1rem;
             border-left: 6px solid #8a7a4c;
+        }
+
+        .back-button-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.5rem;
+        }
+        .btn-back {
+            background: none;
+            border: 1px solid #5f5a48;
+            padding: 0.5rem 1.4rem;
+            border-radius: 2rem;
+            cursor: pointer;
+            color: #cdc09c;
+            transition: 0.2s;
+            font-size: 0.85rem;
+        }
+        .btn-back:hover {
+            background: #2c2a38;
+            color: #ffe6b3;
         }
 
         .reenter-btn {
@@ -311,11 +381,11 @@
             background: none;
             border: 1px solid #5f5a48;
             padding: 0.5rem 1.4rem;
-            font-size: 0.85rem;
             border-radius: 2rem;
             cursor: pointer;
             color: #cdc09c;
             transition: 0.2s;
+            font-size: 0.85rem;
         }
         .btn-small:hover {
             background: #2c2a38;
@@ -383,10 +453,15 @@
 
         .secret-highlight {
             background: #05070c;
-            padding: 0.5rem 1rem;
+            padding: 0.3rem 0.8rem;
             border-radius: 2rem;
             border: 1px solid #cbaf68;
             display: inline-block;
+            font-size: 0.8rem;
+        }
+
+        .hidden {
+            display: none !important;
         }
     </style>
 </head>
@@ -412,17 +487,32 @@
         </div>
     </div>
 
-    <!-- 图书馆主界面（展示完整西斯卡尔勒档案） -->
+    <!-- 图书馆主界面 -->
     <div id="libraryPanel" class="panel hidden-panel">
         <div class="library-grid">
             <div class="welcome-area" id="welcomeArea">
-                <h2 id="userGreeting">📜 布谷鹏先生，日安。</h2>
-                <div class="permission-badge" id="permissionTag">🔺 权限等级：最高 (大图书馆主宰)</div>
-                <p style="margin-top: 12px; font-style: italic; font-size: 0.9rem;">“智慧自尘埃中苏醒 · 凝视深渊者亦被深渊凝视”</p>
+                <h2 id="userGreeting">加载中...</h2>
+                <div class="permission-badge" id="permissionTag">权限等级</div>
+                <p style="margin-top: 12px; font-style: italic; font-size: 0.9rem;">“智慧自尘埃中苏醒”</p>
             </div>
 
-            <!-- 西斯卡尔勒完整档案卡 -->
-            <div class="archive-full">
+            <!-- 档案入口 (始终显示) -->
+            <div id="archiveEntryCard" class="archive-entry">
+                <div class="archive-title">
+                    <span>📜 绝密档案 · 禁忌卷轴</span>
+                    <span style="font-size: 0.7rem;">⚡最高阅览许可⚡</span>
+                </div>
+                <div class="secret-content" id="secretDisplay">
+                    西斯卡尔勒
+                </div>
+                <div class="click-hint">
+                    ⚡ 点击卷轴 · 揭开真名 ⚡<br>
+                    编号: XK-0991 · 不可逾越之真名
+                </div>
+            </div>
+
+            <!-- 档案详情面板 (初始隐藏，点击后显示) -->
+            <div id="archiveDetailPanel" class="archive-detail-panel hidden">
                 <div class="profile-header">
                     <span class="profile-name">维多利塔·莱蒙德·西斯卡尔勒</span>
                     <span class="profile-alias">Vitorita Reimond Siscalle</span>
@@ -433,7 +523,6 @@
                 </div>
                 
                 <div class="info-grid">
-                    <!-- 左栏 -->
                     <div>
                         <div class="info-section">
                             <div class="section-title">🔮 实力评估总结</div>
@@ -450,7 +539,6 @@
                             <p>手臂与腿部的“环”曾是所有维度之神设下的封印。如今它们已完全失效，只是装饰——象征他已粉碎一切束缚，随时可以将其撑爆。</p>
                         </div>
                     </div>
-                    <!-- 右栏 -->
                     <div>
                         <div class="info-section">
                             <div class="section-title">🌀 无限超越性</div>
@@ -474,7 +562,6 @@
                     </div>
                 </div>
 
-                <!-- 论战定位 & 弱点 -->
                 <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: 1.8rem;">
                     <div style="flex: 2; min-width: 260px;" class="info-section">
                         <div class="section-title">⚔️ 论战中的定位</div>
@@ -489,14 +576,16 @@
                     </div>
                 </div>
 
-                <!-- 绝密档案核心名 (装饰) -->
-                <div style="text-align: right; margin-top: 1.5rem; font-size: 2rem; font-weight: bold; opacity: 0.2; letter-spacing: 6px;">西斯卡尔勒</div>
+                <div class="back-button-container">
+                    <button class="btn-back" id="backToEntryBtn">◀ 返回卷轴</button>
+                    <span style="font-size: 1.5rem; font-weight: bold; opacity: 0.15; letter-spacing: 6px;">西斯卡尔勒</span>
+                </div>
             </div>
 
             <div class="reenter-btn">
                 <button class="btn-small" id="exitToLoginBtn">⟳ 重返门扉 / 切换身份</button>
             </div>
-            <footer>莱文特档案馆 · 灵薄狱分支 · 绝密卷轴已解封</footer>
+            <footer>莱文特档案馆 · 灵薄狱分支</footer>
         </div>
     </div>
 </div>
@@ -527,6 +616,11 @@
         const modal = document.getElementById('customModal');
         const modalMessage = document.getElementById('modalMessage');
         const modalConfirmBtn = document.getElementById('modalConfirmBtn');
+        
+        // 新增：档案入口和详情面板
+        const archiveEntryCard = document.getElementById('archiveEntryCard');
+        const archiveDetailPanel = document.getElementById('archiveDetailPanel');
+        const backToEntryBtn = document.getElementById('backToEntryBtn');
 
         let isProcessing = false;
         let currentTempUserType = null;
@@ -572,19 +666,32 @@
             modal.addEventListener('click', modalClick);
         }
 
-        // 进入图书馆（更新欢迎语及权限，档案内容已是完整西斯卡尔勒）
+        // 显示档案入口，隐藏详情
+        function showArchiveEntry() {
+            archiveEntryCard.classList.remove('hidden');
+            archiveDetailPanel.classList.add('hidden');
+        }
+
+        // 显示档案详情，隐藏入口
+        function showArchiveDetail() {
+            archiveEntryCard.classList.add('hidden');
+            archiveDetailPanel.classList.remove('hidden');
+        }
+
         function enterLibrary(userType) {
             loginPanel.classList.add('hidden-panel');
             libraryPanel.classList.remove('hidden-panel');
             
             if (userType === 'vip') {
                 userGreetingSpan.innerHTML = '📜 布谷鹏先生，日安。';
-                permissionTagSpan.innerHTML = '🔺 权限等级：最高 (大图书馆主宰 · 全卷阅览)';
+                permissionTagSpan.innerHTML = '🔺 权限等级：最高 (大图书馆主宰)';
             } else {
                 userGreetingSpan.innerHTML = '🍂 尊敬的访客，欢迎阅览。';
-                permissionTagSpan.innerHTML = '🔹 权限等级：基础 (公开阅览者 · 绝密档案可见)';
+                permissionTagSpan.innerHTML = '🔹 权限等级：基础 (公开阅览者)';
             }
-            // 确保档案内容展示西斯卡尔勒 (已经内嵌在HTML中，无需额外操作)
+            
+            // 确保显示的是档案入口，而不是详情
+            showArchiveEntry();
         }
 
         function authenticateAndProceed(userType, optionalMsg = null) {
@@ -624,6 +731,8 @@
             verifyBtn.disabled = false;
             guestBtn.disabled = false;
             currentTempUserType = null;
+            // 重置为入口视图
+            showArchiveEntry();
         }
 
         function onVerify() {
@@ -642,6 +751,16 @@
             authenticateAndProceed('guest', '您选择直接阅览，未使用专属密匙。');
         }
 
+        // 点击档案入口卡片 → 显示详情
+        function onArchiveEntryClick() {
+            showArchiveDetail();
+        }
+
+        // 返回按钮 → 回到入口
+        function onBackToEntry() {
+            showArchiveEntry();
+        }
+
         // 事件绑定
         verifyBtn.addEventListener('click', onVerify);
         guestBtn.addEventListener('click', onGuestDirect);
@@ -656,20 +775,23 @@
             }
         });
 
+        // 档案入口点击事件
+        archiveEntryCard.addEventListener('click', onArchiveEntryClick);
+        
+        // 返回按钮事件
+        backToEntryBtn.addEventListener('click', onBackToEntry);
+
         // 初始化
         window.addEventListener('load', () => {
             resetToLogin();
             setTimeout(() => passwordInput.focus(), 400);
-            // 确保档案内容绝对安全（西斯卡尔勒）
-            const allSecretSpans = document.querySelectorAll('.secret-highlight, .profile-name');
-            // 已经内嵌，无需变动
         });
 
-        // 保护档案内容不被意外覆盖
+        // 保护档案内容
         const observer = new MutationObserver(() => {
-            const profile = document.querySelector('.profile-name');
-            if (profile && !profile.innerText.includes('维多利塔')) {
-                profile.innerText = '维多利塔·莱蒙德·西斯卡尔勒';
+            const secretDisplay = document.getElementById('secretDisplay');
+            if (secretDisplay && secretDisplay.innerText !== '西斯卡尔勒') {
+                secretDisplay.innerText = '西斯卡尔勒';
             }
         });
         observer.observe(document.body, { childList: true, subtree: true });
