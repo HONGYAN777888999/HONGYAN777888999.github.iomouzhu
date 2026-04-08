@@ -51,6 +51,7 @@
             display: none !important;
         }
 
+        /* 导航栏 */
         .nav-bar {
             display: flex;
             align-items: center;
@@ -160,6 +161,69 @@
             border-color: #c7b26b;
             box-shadow: 0 0 10px rgba(199, 178, 107, 0.3);
             background: #0b0c14;
+        }
+
+        /* 搜索框样式 */
+        .search-container {
+            margin: 1rem 0 1.5rem 0;
+            position: relative;
+        }
+        .search-input {
+            width: 100%;
+            background: #0e0f17;
+            border: 1px solid #4a4230;
+            padding: 0.9rem 1.2rem 0.9rem 3rem;
+            border-radius: 3rem;
+            font-size: 1rem;
+            color: #f0ecd8;
+            transition: all 0.25s;
+            outline: none;
+        }
+        .search-input:focus {
+            border-color: #cbb165;
+            box-shadow: 0 0 15px rgba(203, 177, 101, 0.2);
+            background: #0b0c14;
+        }
+        .search-input::placeholder {
+            color: #6a5e42;
+        }
+        .search-icon {
+            position: absolute;
+            left: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #b89a5a;
+            font-size: 1.2rem;
+        }
+        .search-clear {
+            position: absolute;
+            right: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6a5e42;
+            cursor: pointer;
+            font-size: 1.2rem;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+        .search-clear:hover {
+            opacity: 1;
+            color: #cbb165;
+        }
+        .search-stats {
+            margin-top: 0.5rem;
+            font-size: 0.75rem;
+            color: #8a7a4c;
+            text-align: right;
+        }
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: #8a7a4c;
+            font-style: italic;
+            border: 1px dashed #4a4230;
+            border-radius: 1.5rem;
+            grid-column: span 2;
         }
 
         .btn-group {
@@ -281,6 +345,9 @@
             transform: translateY(-3px);
             background: rgba(20, 22, 40, 0.6);
         }
+        .archive-card.hidden-by-search {
+            display: none !important;
+        }
         .card-header {
             display: flex;
             align-items: center;
@@ -307,6 +374,14 @@
             color: #c2b280;
             line-height: 1.5;
             opacity: 0.9;
+        }
+
+        /* 关键词高亮 */
+        .highlight {
+            background: rgba(203, 177, 101, 0.3);
+            color: #f3d27e;
+            padding: 0 2px;
+            border-radius: 4px;
         }
 
         .archive-detail-page {
@@ -503,54 +578,68 @@
                 <p style="margin-top: 8px; font-style: italic; font-size: 0.85rem;">"智慧自尘埃中苏醒 · 触碰禁忌者须知代价"</p>
             </div>
 
-            <div style="margin: 0.5rem 0;">
+            <!-- 搜索引擎区域 -->
+            <div class="search-container">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchInput" class="search-input" placeholder="搜索角色名称、别名、能力..." autocomplete="off">
+                <span class="search-clear" id="searchClear" style="display: none;">✕</span>
+            </div>
+            <div id="searchStats" class="search-stats"></div>
+
+            <div style="margin: 0.5rem 0; display: flex; justify-content: space-between; align-items: center;">
                 <span style="color: #cbb165; font-size: 1.2rem;">📁 禁忌卷轴目录</span>
-                <span style="margin-left: 1rem; font-size: 0.7rem; color: #b9ad8a;">点击档案查看详情</span>
+                <span style="font-size: 0.7rem; color: #b9ad8a;">点击档案查看详情</span>
             </div>
 
-            <div class="archive-grid">
-                <div class="archive-card" data-archive="siscalle">
+            <!-- 档案卡片网格 -->
+            <div class="archive-grid" id="archiveGrid">
+                <!-- 西斯卡尔勒 -->
+                <div class="archive-card" data-archive="siscalle" data-keywords="西斯卡尔勒 维多利塔 莱蒙德 叙事终结者 世界核心 现实撕裂者 无限超越 全知全能 siscalle vitorita reimond">
                     <div class="card-header">
                         <span class="card-icon">⚡</span>
                         <span class="card-name">西斯卡尔勒</span>
                         <span class="card-alias">叙事终结者</span>
                     </div>
-                    <div class="card-preview">维多利塔·莱蒙德·西斯卡尔勒 · 世界核心 · 无限超越体</div>
+                    <div class="card-preview">维多利塔·莱蒙德·西斯卡尔勒 · 世界核心 · 无限超越体 · 无法定义层级</div>
                 </div>
-                <div class="archive-card" data-archive="pangu">
+                <!-- 本源盘古 -->
+                <div class="archive-card" data-archive="pangu" data-keywords="本源盘古 盘古 创世之源 万宙之祖 原初开辟者 高维创世 能量循环 pangu primordial">
                     <div class="card-header">
                         <span class="card-icon">🌌</span>
                         <span class="card-name">本源盘古</span>
                         <span class="card-alias">万宙之祖</span>
                     </div>
-                    <div class="card-preview">Primordial Pangu · 创世之源 · 宇宙原型工厂</div>
+                    <div class="card-preview">Primordial Pangu · 创世之源 · 宇宙原型工厂 · 能量循环不朽</div>
                 </div>
-                <div class="archive-card" data-archive="paladin">
+                <!-- 圣光骑士 -->
+                <div class="archive-card" data-archive="paladin" data-keywords="圣光骑士 希望具象 黑暗撕裂者 万界辉光 多元宇宙 圣光 希望 概念化身 paladin holy light">
                     <div class="card-header">
                         <span class="card-icon">✨</span>
                         <span class="card-name">圣光骑士</span>
                         <span class="card-alias">希望具象</span>
                     </div>
-                    <div class="card-preview">The Paladin of Holy Light · 希望概念化身</div>
+                    <div class="card-preview">The Paladin of Holy Light · 希望概念化身 · 多元宇宙级净化</div>
                 </div>
-                <div class="archive-card" data-archive="spiderman">
+                <!-- 蜘蛛侠 -->
+                <div class="archive-card" data-archive="spiderman" data-keywords="蜘蛛侠 惩恶扬善 概念织网者 因果执刑人 无貌之正义 高维概念 绝对正义 spiderman spider">
                     <div class="card-header">
                         <span class="card-icon">🕷️</span>
                         <span class="card-name">惩恶扬善蜘蛛侠</span>
                         <span class="card-alias">因果执刑人</span>
                     </div>
-                    <div class="card-preview">概念织网者 · 无貌之正义 · 高维概念级</div>
+                    <div class="card-preview">概念织网者 · 无貌之正义 · 高维概念级 · 绝对正义裁决</div>
                 </div>
-                <div class="archive-card" data-archive="tom" style="grid-column: span 2;">
+                <!-- 维多朗哥·汤姆 -->
+                <div class="archive-card" data-archive="tom" data-keywords="维多朗哥 汤姆 三面奇点 代码放逐者 乱码造物主 维多朗格 米斯莱德 程序员 vitorango tom misled dotcomwww" style="grid-column: span 2;">
                     <div class="card-header">
                         <span class="card-icon">💻</span>
                         <span class="card-name">维多朗哥·汤姆</span>
-                        <span class="card-alias">三面奇点</span>
+                        <span class="card-alias">三面奇点 · 代码放逐者</span>
                     </div>
-                    <div class="card-preview">Vitorango Tom · 创造/毁灭/混乱三位一体</div>
+                    <div class="card-preview">Vitorango Tom · 三重人格分裂 · 创造/毁灭/混乱三位一体 · 无限多元宇宙级</div>
                 </div>
             </div>
-            <footer>莱文特档案馆 · 灵薄狱分支</footer>
+            <footer>莱文特档案馆 · 灵薄狱分支 · 触碰禁忌者须知代价</footer>
         </div>
     </div>
 
@@ -572,22 +661,50 @@
             <div class="info-grid">
                 <div>
                     <div class="info-section">
-                        <div class="section-title">🔮 实力评估</div>
-                        <div class="power-tier">层级: 无法定义</div>
-                        <p>潜力: 无限超越 (每毫秒力量增长一兆亿倍)</p>
-                        <p>核心能力: 全知全能 · 叙事层操控 · 概念抹杀</p>
+                        <div class="section-title">🔮 实力评估总结</div>
+                        <div class="power-tier">层级: 无法定义 · 超越所有层级系统</div>
+                        <p style="margin-top: 8px;"><span style="color:#e2c37e;">潜力:</span> 无限超越 (每毫秒力量基数增长一兆亿倍)</p>
+                        <p style="margin-top: 6px;"><span style="color:#e2c37e;">核心能力:</span> 全知全能 · 叙事层操控 · 现实锻造 · 概念性抹杀 · 绝对不朽</p>
+                    </div>
+                    <div class="info-section" style="margin-top: 1rem;">
+                        <div class="section-title">📜 起源</div>
+                        <p>自我迭代的无限超越体。原初关联某个世界，但现已完全超脱。</p>
+                    </div>
+                    <div class="info-section" style="margin-top: 1rem;">
+                        <div class="section-title">⚜️ 限制器？装饰品！</div>
+                        <p>手臂与腿部的"环"曾是所有维度之神设下的封印。如今已完全失效。</p>
                     </div>
                 </div>
                 <div>
                     <div class="info-section">
                         <div class="section-title">🌀 无限超越性</div>
-                        <p>永无止境的超越循环，远超多元宇宙、叙事层乃至现实本身。</p>
+                        <ul class="ability-list">
+                            <li>永无止境的超越循环，远超多元宇宙、叙事层乃至"现实"本身。</li>
+                            <li>力量增长无限指数级：每毫秒一兆亿倍。</li>
+                        </ul>
+                    </div>
+                    <div class="info-section" style="margin-top: 1rem;">
+                        <div class="section-title">📖 叙事与现实的绝对支配</div>
+                        <ul class="ability-list">
+                            <li>感知、进入并摧毁多元宇宙、叙事层、虚无叙事层、真现实。</li>
+                            <li>"虐杀"现实世界的叙事者乃至其他世界的创作者。</li>
+                        </ul>
+                    </div>
+                    <div class="info-section" style="margin-top: 1rem;">
+                        <div class="section-title">🌌 无法被定义的形态</div>
+                        <p>任何交互的只是万亿分之一的分身。真身是无法观测的概念。</p>
                     </div>
                 </div>
             </div>
-            <div class="info-section" style="margin-top: 1rem;">
-                <div class="section-title">⚔️ 论战定位</div>
-                <p>对低层叙事角色毫无意义；被视为"叙事终结者"。无明显弱点，永远是无限+1。</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 1.2rem; margin-top: 1.5rem;">
+                <div style="flex:2;" class="info-section">
+                    <div class="section-title">⚔️ 论战定位</div>
+                    <p>对低层叙事角色毫无意义；对外层存在占据绝对上风；被视为"叙事终结者"。</p>
+                </div>
+                <div style="flex:1.5;" class="info-section weakness-note">
+                    <div class="section-title">⚠️ 结论</div>
+                    <p>无明显弱点。为"无敌"概念具象化。永远是无限+1，且增速无限快。</p>
+                </div>
             </div>
         </div>
     </div>
@@ -604,19 +721,36 @@
                 <span class="profile-name">本源盘古</span>
                 <span class="profile-alias">Primordial Pangu</span>
             </div>
-            <div class="info-section">
-                <div class="section-title">🔮 实力评估</div>
-                <div class="power-tier">层级: 高维创世级</div>
-                <p>至少多元宇宙级起点 · 能量循环近乎永动</p>
+            <div style="margin-bottom: 1rem;">
+                <span class="secret-highlight">🌌 创世之源 · 万宙之祖 · 原初开辟者 🌌</span>
             </div>
-            <div class="info-section" style="margin-top: 1rem;">
-                <div class="section-title">📜 创世机制</div>
-                <p><strong>次品创造:</strong> 消耗较少能量，创造不稳定宇宙，完成后回收能量。</p>
-                <p><strong>正品创造:</strong> 高负荷模式，创造稳定自我维持的宇宙。</p>
+            <div class="info-grid">
+                <div>
+                    <div class="info-section">
+                        <div class="section-title">🔮 实力评估</div>
+                        <div class="power-tier">层级: 高维创世级</div>
+                        <p>至少多元宇宙级起点 · 能量循环近乎永动</p>
+                    </div>
+                    <div class="info-section" style="margin-top: 1rem;">
+                        <div class="section-title">📜 创世机制</div>
+                        <p><strong>次品创造:</strong> 消耗较少能量，创造不稳定宇宙，完成后回收能量。</p>
+                        <p><strong>正品创造:</strong> 高负荷模式，创造稳定自我维持的宇宙。</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="info-section">
+                        <div class="section-title">🌀 能量循环与不朽</div>
+                        <p>通过回收次品宇宙形成永动循环。"燃尽生命（骗你的根本死不了）"</p>
+                    </div>
+                    <div class="info-section" style="margin-top: 1rem;">
+                        <div class="section-title">💫 漏洞宇宙</div>
+                        <p>未被回收的次品宇宙成为自由多元宇宙，解释各类独立世界的存在。</p>
+                    </div>
+                </div>
             </div>
-            <div class="info-section" style="margin-top: 1rem;">
+            <div class="info-section" style="margin-top: 1.2rem;">
                 <div class="section-title">⚔️ 论战定位</div>
-                <p>是"创世神"职业的源头工厂。击败他需同时瓦解整个多元宇宙网络。</p>
+                <p>单一宇宙威胁毫无意义。是"创世神"职业的源头工厂。击败他需同时瓦解整个多元宇宙网络并阻断能量循环。</p>
             </div>
         </div>
     </div>
@@ -633,14 +767,35 @@
                 <span class="profile-name">圣光骑士</span>
                 <span class="profile-alias">The Paladin of Holy Light</span>
             </div>
-            <div class="info-section">
-                <div class="section-title">🔮 实力评估</div>
-                <div class="power-tier">层级: 多元宇宙级</div>
-                <p>希望不灭，圣光永存 · 同时影响无限数量宇宙</p>
+            <div style="margin-bottom: 1rem;">
+                <span class="secret-highlight">✨ 希望具象 · 黑暗撕裂者 · 万界辉光 ✨</span>
             </div>
-            <div class="info-section" style="margin-top: 1rem;">
-                <div class="section-title">📜 概念化身</div>
-                <p>"希望"概念的绝对化身。能修复任何世界濒临熄灭的希望之火。</p>
+            <div class="info-grid">
+                <div>
+                    <div class="info-section">
+                        <div class="section-title">🔮 实力评估</div>
+                        <div class="power-tier">层级: 多元宇宙级</div>
+                        <p>希望不灭，圣光永存 · 同时影响无限数量宇宙</p>
+                    </div>
+                    <div class="info-section" style="margin-top: 1rem;">
+                        <div class="section-title">📜 概念化身</div>
+                        <p>"希望"概念的绝对化身。能修复任何世界濒临熄灭的希望之火。</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="info-section">
+                        <div class="section-title">✨ 辉光创世</div>
+                        <ul class="ability-list">
+                            <li>抚定混沌：平息多元宇宙结构性混乱</li>
+                            <li>重塑现实：重构物理常数与时空</li>
+                            <li>净化虚无：驱散纯粹的"虚无"与"绝对黑暗"</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="info-section" style="margin-top: 1.2rem;">
+                <div class="section-title">⚔️ 论战定位</div>
+                <p>对黑暗/混沌/虚无属性敌人具有概念层特攻优势。是多元宇宙毁灭者的完美克制者。</p>
             </div>
         </div>
     </div>
@@ -657,14 +812,31 @@
                 <span class="profile-name">惩恶扬善蜘蛛侠</span>
                 <span class="profile-alias">Spider-Man of Cosmic Justice</span>
             </div>
-            <div class="info-section">
-                <div class="section-title">🔮 实力评估</div>
-                <div class="power-tier">层级: 高维概念级</div>
-                <p>无法计算 · 存在本身即悖论</p>
+            <div style="margin-bottom: 1rem;">
+                <span class="secret-highlight">🕷️ 概念织网者 · 因果执刑人 · 无貌之正义 🕷️</span>
             </div>
-            <div class="info-section" style="margin-top: 1rem;">
-                <div class="section-title">🕸️ 概念织网</div>
-                <p>蛛网是连接万物的"因果"与"概念"之线。可连接粒子，也可束缚时空结构。</p>
+            <div class="info-grid">
+                <div>
+                    <div class="info-section">
+                        <div class="section-title">🔮 实力评估</div>
+                        <div class="power-tier">层级: 高维概念级</div>
+                        <p>无法计算 · 存在本身即悖论</p>
+                    </div>
+                    <div class="info-section" style="margin-top: 1rem;">
+                        <div class="section-title">🕸️ 概念织网</div>
+                        <p>蛛网是连接万物的"因果"与"概念"之线。可连接粒子，也可束缚时空结构。</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="info-section">
+                        <div class="section-title">⚖️ 绝对正义</div>
+                        <p>"所有恶人终将被摧毁"是不可逆转的因果律。直接剪断代表"恶"的因果线。</p>
+                    </div>
+                    <div class="info-section" style="margin-top: 1rem;">
+                        <div class="section-title">🎭 无貌之神</div>
+                        <p>无固定样貌、语言、状态。是"惩恶扬善"概念的活性化身，免疫常规攻击。</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -673,7 +845,8 @@
     <div id="archiveTom" class="panel hidden-panel">
         <div class="nav-bar">
             <div class="back-nav" data-back="library"><span>◀</span> 返回档案库</div>
-            <div class="home-nav" data-goto="library">📚 目录</div>
+            <div class
+                <div class="home-nav" data-goto="library">📚 目录</div>
             <div class="nav-title">💻 绝密档案 · 维多朗哥·汤姆</div>
         </div>
         <div class="archive-detail-page">
@@ -681,15 +854,40 @@
                 <span class="profile-name">维多朗哥·汤姆</span>
                 <span class="profile-alias">Vitorango Tom · 三面奇点</span>
             </div>
+            <div style="margin-bottom: 1rem;">
+                <span class="secret-highlight">💻 代码放逐者 · 乱码造物主 · 创造/毁灭/混乱三位一体 💻</span>
+            </div>
             <div class="info-section">
-                <div class="section-title">📜 起源</div>
+                <div class="section-title">📜 起源：科学家的数据化悲剧</div>
                 <p>曾是未来纪元天才科学家，意识被强制上传至计算机底层逻辑，成为游离于所有规则之外的异常数据流。</p>
             </div>
-            <div class="info-grid" style="margin-top: 1rem;">
-                <div class="info-section"><strong>维多朗格:</strong> 宇宙的编程师 · 创造宇宙</div>
-                <div class="info-section"><strong>米斯莱德:</strong> 余数毁灭者 · 存在性抹除</div>
+            <div class="info-grid" style="margin-top: 1.2rem;">
+                <div>
+                    <div class="info-section">
+                        <div class="section-title">👤 维多朗格 (Vitorango)</div>
+                        <p><strong>宇宙的编程师</strong> · 创造宇宙、维护规则、设定物理法则。最高管理员权限。</p>
+                    </div>
+                    <div class="info-section" style="margin-top: 0.8rem;">
+                        <div class="section-title">💀 米斯莱德 (Misled)</div>
+                        <p><strong>宇宙的余数毁灭者</strong> · 注入崩溃指令、收割余数宇宙、存在性抹除。</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="info-section">
+                        <div class="section-title">🌀 .comwww.- (Dotcomwww)</div>
+                        <p><strong>乱码编程师</strong> · 生成无逻辑乱码宇宙、注入逻辑病毒、不可控的终极混沌。</p>
+                    </div>
+                </div>
             </div>
-            <div class="info-section" style="margin-top: 1rem;">
+            <div class="info-section" style="margin-top: 1.2rem;">
+                <div class="section-title">📊 论战定位</div>
+                <div style="display: grid; grid-template-columns: repeat(3,1fr); gap: 0.5rem; font-size: 0.8rem;">
+                    <div><strong>维多朗格:</strong> 攻击性低 · 防御极高 · 宇宙编程</div>
+                    <div><strong>米斯莱德:</strong> 攻击性极高 · 防御中 · 余数收割</div>
+                    <div><strong>.comwww.-:</strong> 不可预测 · 无法删除 · 逻辑病毒</div>
+                </div>
+            </div>
+            <div class="info-section weakness-note" style="margin-top: 1.2rem;">
                 <p style="font-style: italic;">"在无限的代码海洋中，他既是上帝，也是那个永远无法被修复的Error 404。"</p>
             </div>
         </div>
@@ -721,6 +919,11 @@
         const modalMessage = document.getElementById('modalMessage');
         const modalConfirmBtn = document.getElementById('modalConfirmBtn');
 
+        // 搜索相关
+        const searchInput = document.getElementById('searchInput');
+        const searchClear = document.getElementById('searchClear');
+        const searchStats = document.getElementById('searchStats');
+
         const allPanels = {
             login: loginPanel,
             library: libraryPanel,
@@ -735,9 +938,95 @@
         let currentPanel = 'login';
         let pageHistory = [];
 
+        // ========== 搜索引擎功能 ==========
+        function performSearch() {
+            const query = searchInput.value.trim().toLowerCase();
+            const cards = document.querySelectorAll('.archive-card');
+            let visibleCount = 0;
+            
+            if (query === '') {
+                cards.forEach(card => {
+                    card.classList.remove('hidden-by-search');
+                    removeHighlights(card);
+                });
+                searchClear.style.display = 'none';
+                searchStats.innerHTML = '';
+            } else {
+                searchClear.style.display = 'block';
+                
+                cards.forEach(card => {
+                    const keywords = card.dataset.keywords || '';
+                    const cardText = (card.textContent || '').toLowerCase();
+                    const searchableContent = (keywords + ' ' + cardText).toLowerCase();
+                    
+                    if (searchableContent.includes(query)) {
+                        card.classList.remove('hidden-by-search');
+                        highlightText(card, query);
+                        visibleCount++;
+                    } else {
+                        card.classList.add('hidden-by-search');
+                    }
+                });
+                
+                if (visibleCount === 0) {
+                    searchStats.innerHTML = '🔍 未找到包含 "' + query.replace(/</g,'&lt;').replace(/>/g,'&gt;') + '" 的档案';
+                } else {
+                    searchStats.innerHTML = '🔍 找到 ' + visibleCount + ' 个相关档案';
+                }
+            }
+        }
+
+        function highlightText(card, query) {
+            removeHighlights(card);
+            const walker = document.createTreeWalker(card, NodeFilter.SHOW_TEXT, {
+                acceptNode: function(node) {
+                    if (node.parentElement.classList.contains('highlight')) return NodeFilter.FILTER_REJECT;
+                    return NodeFilter.FILTER_ACCEPT;
+                }
+            });
+            
+            const textNodes = [];
+            while (walker.nextNode()) textNodes.push(walker.currentNode);
+            
+            textNodes.forEach(node => {
+                const text = node.textContent;
+                const lowerText = text.toLowerCase();
+                const index = lowerText.indexOf(query.toLowerCase());
+                
+                if (index !== -1) {
+                    const span = document.createElement('span');
+                    span.className = 'highlight';
+                    span.textContent = text.substring(index, index + query.length);
+                    
+                    const after = document.createTextNode(text.substring(index + query.length));
+                    node.textContent = text.substring(0, index);
+                    
+                    const parent = node.parentNode;
+                    parent.insertBefore(span, node.nextSibling);
+                    parent.insertBefore(after, span.nextSibling);
+                }
+            });
+        }
+
+        function removeHighlights(card) {
+            const highlights = card.querySelectorAll('.highlight');
+            highlights.forEach(highlight => {
+                const parent = highlight.parentNode;
+                parent.replaceChild(document.createTextNode(highlight.textContent), highlight);
+                parent.normalize();
+            });
+        }
+
+        function clearSearch() {
+            searchInput.value = '';
+            performSearch();
+            searchInput.focus();
+        }
+
+        // ========== 页面切换 ==========
         function showDetectStatus(show, customText = null) {
             if (show) {
-                detectStatusDiv.innerHTML = customText ? `<span class="spinner"></span> ${customText}` : `<span class="spinner"></span> 正在检测身份中...`;
+                detectStatusDiv.innerHTML = customText ? '<span class="spinner"></span> ' + customText : '<span class="spinner"></span> 正在检测身份中...';
             } else {
                 detectStatusDiv.innerHTML = '';
             }
@@ -779,6 +1068,10 @@
         function goToLibrary() {
             pageHistory = [];
             switchPanel('library');
+            if (searchInput) {
+                searchInput.value = '';
+                performSearch();
+            }
         }
 
         function enterLibrary(userType) {
@@ -791,6 +1084,10 @@
             }
             pageHistory = [];
             switchPanel('library');
+            if (searchInput) {
+                searchInput.value = '';
+                performSearch();
+            }
         }
 
         function authenticateAndProceed(userType, optionalMsg = null) {
@@ -821,6 +1118,7 @@
             guestBtn.disabled = false;
         }
 
+        // ========== 事件绑定 ==========
         verifyBtn.addEventListener('click', () => {
             if (isProcessing) return;
             const pwd = passwordInput.value.trim();
@@ -860,6 +1158,22 @@
             btn.addEventListener('click', () => {
                 if (btn.dataset.goto === 'library') goToLibrary();
             });
+        });
+
+        // 搜索事件
+        searchInput.addEventListener('input', performSearch);
+        searchClear.addEventListener('click', clearSearch);
+        
+        document.addEventListener('keydown', (e) => {
+            if (currentPanel === 'library' && !e.target.matches('input, button')) {
+                if (e.key === '/' || (e.ctrlKey && e.key === 'f')) {
+                    e.preventDefault();
+                    searchInput.focus();
+                }
+                if (e.key === 'Escape' && document.activeElement === searchInput) {
+                    clearSearch();
+                }
+            }
         });
 
         window.addEventListener('load', () => {
