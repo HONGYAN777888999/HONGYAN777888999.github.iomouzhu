@@ -52,36 +52,42 @@
             display: none !important;
         }
 
-        /* 个人资料按钮 - 右上角 */
-        .profile-corner-btn {
+        /* 右上角菜单按钮 - 三条横杠 */
+        .menu-corner-btn {
             position: absolute;
             top: 1.5rem;
             right: 2rem;
             z-index: 100;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 8px;
+            justify-content: center;
+            gap: 4px;
             background: rgba(20, 22, 32, 0.8);
             backdrop-filter: blur(8px);
             border: 1px solid #b89a5a;
-            border-radius: 3rem;
-            padding: 0.5rem 1.2rem;
+            border-radius: 2.5rem;
+            width: 44px;
+            height: 44px;
             cursor: pointer;
             transition: all 0.3s ease;
-            color: #e7cf9e;
+            padding: 0;
         }
-        .profile-corner-btn:hover {
+        .menu-corner-btn:hover {
             background: rgba(44, 36, 22, 0.9);
             border-color: #e7c27d;
             box-shadow: 0 0 20px rgba(203, 177, 101, 0.3);
             transform: translateY(-2px);
         }
-        .profile-corner-btn .avatar-icon {
-            font-size: 1.3rem;
+        .menu-bar {
+            width: 22px;
+            height: 2px;
+            background: #e7cf9e;
+            border-radius: 2px;
+            transition: all 0.2s;
         }
-        .profile-corner-btn .btn-text {
-            font-size: 0.85rem;
-            letter-spacing: 1px;
+        .menu-corner-btn:hover .menu-bar {
+            background: #f5e2b9;
         }
 
         /* 个人资料弹窗 */
@@ -172,6 +178,28 @@
             margin: 0.5rem 0;
             text-shadow: 0 0 8px #b48c3a;
         }
+        .security-warning {
+            background: rgba(180, 60, 60, 0.15);
+            border: 1px solid #b85a5a;
+            border-radius: 1rem;
+            padding: 0.8rem 1rem;
+            margin: 1rem 0;
+            text-align: left;
+        }
+        .security-warning .warning-title {
+            color: #e07070;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .security-warning .warning-text {
+            color: #d4a0a0;
+            font-size: 0.8rem;
+            line-height: 1.4;
+        }
         .profile-close-btn {
             background: #2c2416;
             border: 1px solid #b89a5a;
@@ -180,7 +208,7 @@
             color: #ffefcf;
             font-weight: bold;
             cursor: pointer;
-            margin-top: 1.2rem;
+            margin-top: 0.5rem;
             transition: all 0.2s;
             width: 100%;
         }
@@ -196,6 +224,7 @@
             margin-bottom: 1.5rem;
             padding-bottom: 0.8rem;
             border-bottom: 1px solid rgba(210, 180, 140, 0.3);
+            padding-right: 60px;
         }
         .back-nav {
             display: flex;
@@ -301,7 +330,6 @@
             background: #0b0c14;
         }
 
-        /* 搜索框样式 */
         .search-container {
             margin: 1rem 0 1.5rem 0;
             position: relative;
@@ -693,10 +721,11 @@
 
     <!-- 图书馆主页 -->
     <div id="libraryPanel" class="panel hidden-panel">
-        <!-- 右上角个人资料按钮 -->
-        <div class="profile-corner-btn" id="profileCornerBtn">
-            <span class="avatar-icon">👤</span>
-            <span class="btn-text" id="profileBtnText">我的档案</span>
+        <!-- 右上角菜单按钮 - 三条横杠 -->
+        <div class="menu-corner-btn" id="menuCornerBtn">
+            <span class="menu-bar"></span>
+            <span class="menu-bar"></span>
+            <span class="menu-bar"></span>
         </div>
 
         <div class="nav-bar">
@@ -712,7 +741,6 @@
                 <p style="margin-top: 8px; font-style: italic; font-size: 0.85rem;">"智慧自尘埃中苏醒 · 触碰禁忌者须知代价"</p>
             </div>
 
-            <!-- 搜索引擎区域 -->
             <div class="search-container">
                 <span class="search-icon">🔍</span>
                 <input type="text" id="searchInput" class="search-input" placeholder="搜索角色名称、别名、能力..." autocomplete="off">
@@ -725,7 +753,6 @@
                 <span style="font-size: 0.7rem; color: #b9ad8a;">点击档案查看详情</span>
             </div>
 
-            <!-- 档案卡片网格 -->
             <div class="archive-grid" id="archiveGrid">
                 <div class="archive-card" data-archive="siscalle" data-keywords="西斯卡尔勒 维多利塔 莱蒙德 叙事终结者 世界核心 现实撕裂者 无限超越 全知全能 siscalle vitorita reimond">
                     <div class="card-header">
@@ -852,10 +879,6 @@
                 <div class="power-tier">层级: 多元宇宙级</div>
                 <p>希望不灭，圣光永存 · 同时影响无限数量宇宙</p>
             </div>
-            <div class="info-section" style="margin-top: 1rem;">
-                <div class="section-title">📜 概念化身</div>
-                <p>"希望"概念的绝对化身。能修复任何世界濒临熄灭的希望之火。</p>
-            </div>
         </div>
     </div>
 
@@ -888,7 +911,8 @@
         </div>
         <div class="archive-detail-page">
             <div class="profile-header">
-                <span class="profile-name">维多朗哥·汤姆</span>
+                <span class="profile-name">维多朗哥·汤姆
+                    </span>
                 <span class="profile-alias">Vitorango Tom · 三面奇点</span>
             </div>
             <div class="info-section">
@@ -902,7 +926,6 @@
         </div>
     </div>
 
-    <!-- 个人资料弹窗 -
     <!-- 个人资料弹窗 -->
     <div id="profileModal" class="profile-modal">
         <div class="profile-card">
@@ -911,7 +934,7 @@
             <div class="profile-badge" id="profileBadge">权限等级</div>
             
             <div class="profile-info-row">
-                <span class="profile-info-label">🌐 IP地址</span>
+                <span class="profile-info-label">🌐 IPv4地址</span>
                 <span class="profile-info-value" id="profileIpAddress">检测中...</span>
             </div>
             
@@ -921,6 +944,11 @@
             </div>
             
             <div class="profile-time" id="profileLargeTime">--:--:--</div>
+            
+            <div class="security-warning">
+                <div class="warning-title">⚠️ 安全提醒</div>
+                <div class="warning-text">请不要将此IP泄露给他人，不法分子可追踪到精确到50米以内的地理位置。</div>
+            </div>
             
             <button class="profile-close-btn" id="profileCloseBtn">关闭档案</button>
         </div>
@@ -940,9 +968,8 @@
     (function(){
         "use strict";
 
-        // 全局变量
         let currentUserType = 'guest';
-        let userIP = '检测中...';
+        let userIPv4 = '检测中...';
         
         const loginPanel = document.getElementById('loginPanel');
         const libraryPanel = document.getElementById('libraryPanel');
@@ -955,14 +982,11 @@
         const modal = document.getElementById('customModal');
         const modalMessage = document.getElementById('modalMessage');
         const modalConfirmBtn = document.getElementById('modalConfirmBtn');
-        const profileBtnText = document.getElementById('profileBtnText');
 
-        // 搜索相关
         const searchInput = document.getElementById('searchInput');
         const searchClear = document.getElementById('searchClear');
         const searchStats = document.getElementById('searchStats');
 
-        // 个人资料弹窗
         const profileModal = document.getElementById('profileModal');
         const profileDisplayName = document.getElementById('profileDisplayName');
         const profileBadge = document.getElementById('profileBadge');
@@ -971,7 +995,7 @@
         const profileLargeTime = document.getElementById('profileLargeTime');
         const profileAvatar = document.getElementById('profileAvatar');
         const profileCloseBtn = document.getElementById('profileCloseBtn');
-        const profileCornerBtn = document.getElementById('profileCornerBtn');
+        const menuCornerBtn = document.getElementById('menuCornerBtn');
 
         const allPanels = {
             login: loginPanel,
@@ -988,27 +1012,27 @@
         let pageHistory = [];
         let timeUpdateInterval = null;
 
-        // ========== 获取IP地址 ==========
-        async function fetchUserIP() {
+        // ========== 获取IPv4地址 ==========
+        async function fetchIPv4() {
             try {
                 const response = await fetch('https://api.ipify.org?format=json');
                 const data = await response.json();
-                userIP = data.ip;
+                userIPv4 = data.ip;
                 return data.ip;
             } catch (error) {
                 try {
-                    const response = await fetch('https://api.my-ip.io/ip.json');
+                    const response = await fetch('https://api4.my-ip.io/ip.json');
                     const data = await response.json();
-                    userIP = data.ip;
+                    userIPv4 = data.ip;
                     return data.ip;
                 } catch (e) {
-                    userIP = '无法获取';
+                    userIPv4 = '无法获取';
                     return '无法获取';
                 }
             }
         }
 
-        // ========== 北京时间更新 ==========
+        // ========== 北京时间 ==========
         function getBeijingTime() {
             const now = new Date();
             const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
@@ -1022,9 +1046,8 @@
             const seconds = String(beijingTime.getSeconds()).padStart(2, '0');
             
             return {
-                date: `${year}-${month}-${day}`,
-                time: `${hours}:${minutes}:${seconds}`,
-                full: `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
+                full: `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`,
+                time: `${hours}:${minutes}:${seconds}`
             };
         }
 
@@ -1047,26 +1070,23 @@
             }
         }
 
-        // ========== 更新个人资料弹窗 ==========
+        // ========== 更新个人资料 ==========
         async function updateProfileModal() {
             if (currentUserType === 'vip') {
                 profileDisplayName.textContent = '布谷鹏先生';
                 profileBadge.textContent = '🔺 权限等级：最高';
                 profileAvatar.textContent = '👑';
-                profileBtnText.textContent = '布谷鹏';
             } else {
                 profileDisplayName.textContent = '访客';
                 profileBadge.textContent = '🔹 权限等级：基础';
                 profileAvatar.textContent = '👤';
-                profileBtnText.textContent = '访客档案';
             }
             
-            const ip = await fetchUserIP();
+            const ip = await fetchIPv4();
             profileIpAddress.textContent = ip;
             updateProfileTime();
         }
 
-        // ========== 打开/关闭个人资料 ==========
         async function openProfileModal() {
             await updateProfileModal();
             profileModal.classList.add('active');
@@ -1078,7 +1098,7 @@
             stopTimeUpdate();
         }
 
-        // ========== 搜索引擎 ==========
+        // ========== 搜索 ==========
         function performSearch() {
             const query = searchInput.value.trim().toLowerCase();
             const cards = document.querySelectorAll('.archive-card');
@@ -1130,8 +1150,7 @@
             
             textNodes.forEach(node => {
                 const text = node.textContent;
-                const lowerText = text.toLowerCase();
-                const index = lowerText.indexOf(query.toLowerCase());
+                const index = text.toLowerCase().indexOf(query.toLowerCase());
                 
                 if (index !== -1) {
                     const span = document.createElement('span');
@@ -1149,8 +1168,7 @@
         }
 
         function removeHighlights(card) {
-            const highlights = card.querySelectorAll('.highlight');
-            highlights.forEach(highlight => {
+            card.querySelectorAll('.highlight').forEach(highlight => {
                 const parent = highlight.parentNode;
                 parent.replaceChild(document.createTextNode(highlight.textContent), highlight);
                 parent.normalize();
@@ -1220,11 +1238,9 @@
             if (userType === 'vip') {
                 userGreetingSpan.innerHTML = '📜 布谷鹏先生，日安。';
                 permissionTagSpan.innerHTML = '🔺 权限等级：最高 (大图书馆主宰)';
-                profileBtnText.textContent = '布谷鹏';
             } else {
                 userGreetingSpan.innerHTML = '🍂 尊敬的访客，欢迎阅览。';
                 permissionTagSpan.innerHTML = '🔹 权限等级：基础 (公开阅览者)';
-                profileBtnText.textContent = '访客档案';
             }
             pageHistory = [];
             switchPanel('library');
@@ -1254,6 +1270,7 @@
         function resetToLogin() {
             isProcessing = false;
             modal.classList.remove('active');
+            profileModal.classList.remove('active');
             pageHistory = [];
             switchPanel('login');
             passwordInput.value = '';
@@ -1305,14 +1322,12 @@
             });
         });
 
-        // 个人资料按钮事件
-        profileCornerBtn.addEventListener('click', openProfileModal);
+        menuCornerBtn.addEventListener('click', openProfileModal);
         profileCloseBtn.addEventListener('click', closeProfileModal);
         profileModal.addEventListener('click', (e) => {
             if (e.target === profileModal) closeProfileModal();
         });
 
-        // 搜索事件
         searchInput.addEventListener('input', performSearch);
         searchClear.addEventListener('click', clearSearch);
         
